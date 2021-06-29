@@ -24,7 +24,7 @@ Atat pentru o invatare mai usoara cat si pentru o organizare mai buna recomandam
 - Dupa instalare deschideti un terminal nou si rulati urmatoarele comenzi:
 	
 ```
-node --version  # Should output v12.X
+node --version  # Should output v14.X
 npm --version  # Should output 6.X
 ```
 ### Typescript
