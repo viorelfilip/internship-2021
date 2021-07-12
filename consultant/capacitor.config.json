@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "consultant",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
