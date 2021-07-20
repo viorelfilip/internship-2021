@@ -1,0 +1,29 @@
+ <ion-header>
+  <ion-toolbar>
+    <ion-title>Bine ai venit</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Nume</ion-label>
+    <ion-input [(ngModel)]="model.nume"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Telefon</ion-label>
+    <ion-input [(ngModel)]="model.telefon"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Email</ion-label>
+    <ion-input [(ngModel)]="model.email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-checkbox color="dark"></ion-checkbox>
+    <ion-label>De acord cu politicile GDPR</ion-label>
+  </ion-item>
+
+<ion-button color="primary" (click)="register()">Continuă</ion-button>
+
+</ion-content>
