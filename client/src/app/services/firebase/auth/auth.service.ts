@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { FirebaseApp } from "@angular/fire";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { DocumentData } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
 
 @Injectable({
@@ -12,7 +9,7 @@ export class AuthService {
   private confirmationResult: firebase.auth.ConfirmationResult;
   constructor(private fireAuth: AngularFireAuth) { }
 
-  public signInWithPhoneNumber(recaptchaVerifier, phoneNumber) {
+  signInWithPhoneNumber(recaptchaVerifier: firebase.auth.ApplicationVerifier, phoneNumber: string) {
     return new Promise<any>((resolve, reject) => {
       this.fireAuth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
         .then((confirmationResult) => {
@@ -23,9 +20,10 @@ export class AuthService {
         });
     });
   }
-  public async enterVerificationCode(code) {
+
+  enterVerificationCode(code: string) {
     return new Promise<any>((resolve, reject) => {
-      this.confirmationResult.confirm(code).then(async (result) => {
+      this.confirmationResult.confirm(code).then((result) => {
         resolve(result.user);
       }).catch((error) => {
         reject(error.message || error);

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import * as firebase from 'firebase';
-// import firebase from 'firebase';
 
 import { AuthService } from 'src/app/services/firebase/auth/auth.service';
 import { FirestoreService } from 'src/app/services/firebase/firestore/firestore.service';
@@ -35,8 +34,7 @@ export class RegisterPage implements OnInit {
   async ionViewDidEnter() {
 
     this.recaptchaVerifier = new firebase.default.auth.RecaptchaVerifier('recaptcha-container', {
-      // size: 'invisible',
-      callback: (response) => {
+      callback: () => {
 
       },
       'expired-callback': () => {
@@ -47,7 +45,6 @@ export class RegisterPage implements OnInit {
 
   }
   async continue() {
-    console.log(this.model);
     if (!this.isValid()) {
       this.presentToast('Completati campurile!');
       return;
@@ -56,21 +53,17 @@ export class RegisterPage implements OnInit {
       this.presentToast('Trebuie sa acceptati termenii si conditile!');
       return;
     }
-    this.authService.signInWithPhoneNumber(this.recaptchaVerifier, '+40' + this.model.phone).then(
-      success => {
-        this.smsVerification();
-      }
-    ).catch(err => this.presentToast(err, 5000));
-    // await this.storage.set('session', this.model);
-    // this.router.navigate(['home']);
+    this.authService.signInWithPhoneNumber(this.recaptchaVerifier, '+40' + this.model.phone)
+      .then(
+        this.smsVerification
+      ).catch(err => this.presentToast(err, 5000));
   }
 
   private async presentToast(message: string, duration: number = 2000) {
-    const toast = await this.toastController.create({
+    (await this.toastController.create({
       message: message,
       duration: duration
-    });
-    toast.present();
+    })).present();
   }
 
   private isValid(): boolean {

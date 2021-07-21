@@ -14,5 +14,8 @@ export class HomePage {
       console.log(data);
     });
   }
+  addRequest() {
+    this.firestoreService.addRequest();
+  }
 
 }
