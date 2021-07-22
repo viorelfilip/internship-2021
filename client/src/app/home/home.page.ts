@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FirestoreService } from 'src/app/services/firebase/firestore/firestore.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
-  constructor() {}
+  constructor(private firestoreService: FirestoreService) {
+    this.firestoreService.subscribeToChanges('requests').subscribe((data) => {
+      console.log(data);
+    });
+  }
+  addRequest() {
+    this.firestoreService.addRequest();
+  }
 
 }
