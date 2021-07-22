@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-item lines="none" class="ion-no-padding">
+    <ion-icon name="car-sport-outline" color="primary" style="font-size: 64px;"></ion-icon>
+    <ion-title mode="md" style="font-size: 44px;">iCar</ion-title>
+  </ion-item>
+
+  <div id="container">
+    <ion-card mode="ios">
+      <ion-card-header class="ion-margin">
+        <ion-card-title class="ion-text-start">We need some information first</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (ngSubmit)="continue()" (keyup.enter)="continue()">
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-icon name="call-outline" class="ion-margin-end"></ion-icon>
+            <ion-input placeholder="Phone number" type="tel" name="phone" [(ngModel)]="model.phone" required="true">
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-icon name="person-outline" class="ion-margin-end"></ion-icon>
+            <ion-input placeholder="Name" type="text" name="name" [(ngModel)]="model.name" required="true"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-icon name="mail-outline" class="ion-margin-end"></ion-icon>
+            <ion-input placeholder="Email address" type="email" name="email" [(ngModel)]="model.email" required="true">
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-checkbox [(ngModel)]="model.termsAndConditions" name="termsAndCondition" class="ion-margin-end">
+            </ion-checkbox>
+            <ion-text>I accept the terms and conditions</ion-text>
+          </ion-item>
+          <div class="ion-margin" id="recaptcha-container"></div>
+          <ion-button type="submit" class="ion-margin-vertical" expand="block">
+            Continue
+            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
