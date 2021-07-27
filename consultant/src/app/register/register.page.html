@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register Here</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<!-- Input with placeholder -->
+  <ion-card>
+    <ion-card-header>
+        <ion-card-subtitle></ion-card-subtitle>
+        </ion-card-header>  
+
+    <ion-card-content>
+      <ion-item>
+        <ion-input placeholder= "Email" [(ngModel)]="model.email"></ion-input>
+    </ion-item>
+    <br>
+      <ion-item>
+        <ion-input placeholder= "Password" [(ngModel)]="model.password" type="password"></ion-input>
+      </ion-item>
+    <br>
+    <ion-item>
+      <ion-input placeholder= "Confirm Password" [(ngModel)]="confirmation.password" type="password"></ion-input>
+    </ion-item>
+  <br>
+  <div style="color : red" *ngIf='error'>{{error}}</div>
+    <ion-button (click)="registerMe()">Register</ion-button>
+    
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

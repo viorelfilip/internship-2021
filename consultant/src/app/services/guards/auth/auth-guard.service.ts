@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
 import { StorageService } from '../../storage/storage.service';
 
 @Injectable({
@@ -11,14 +9,14 @@ export class AuthGuardService implements CanActivate {
 
   constructor(private storage: StorageService, private router: Router) {
   }
-
   async canActivate(): Promise<boolean> {
-    const session = await this.storage.get('userId');
-    console.log('userId', session);
-    if (!session) {
-      this.router.navigate(['/register']);
+    const registerData = await this.storage.get('registerData');
+    if (!registerData) {
+      console.warn('inititializare lipsă.... rutare la register');
+      this.router.navigate(['register']);
       return false;
     }
+    console.log({registerData});
     return true;
   }
 }
