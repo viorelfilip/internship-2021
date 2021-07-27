@@ -1,20 +1,41 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="logo">
+    <img src="../assets/img/repair.png"/>
+  </div>
+  <div class="firstBtn">
+    <ion-button color="primary" shape="round" expand="block" size="large" class="btnProgramare">Programare rapida</ion-button>
+  </div>
+  <div class="detalii">
+  <ion-textarea
+    disabled
+    readonly
+    value="Adauga poze pentru a detalia problema">
+  </ion-textarea>
+  <!-- <ion-textarea
+    disabled
+    readonly
+    value="Adauga poza">
+  </ion-textarea> -->
+  <!-- <ion-button color="secondary" shape="round" expand="block" class="btnDetalii">Adauga detalii</ion-button> -->
+</div>
+<div class="cameraBtn">
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addPhotoToGallery()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>
+
+</ion-content>
+
+<!-- 
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-item lines="none" class="ion-no-padding">
+    <ion-text mode="md" class="ion-text-wrap" style="font-size: 34px;">Solicitare</ion-text>
+  </ion-item>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button color="danger" (click)="addRequest()">Vreau consultanta</ion-button>
   </div>
-</ion-content>
+</ion-content> -->

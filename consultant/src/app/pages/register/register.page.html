@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bine ai venit</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <!-- <ion-label position="floating">Email</ion-label> -->
+    <ion-input placeholder="Email" type="email" [(ngModel)] = 'model.email'></ion-input>
+  </ion-item>
+  <ion-item>
+    <!-- <ion-label position="floating">Parola</ion-label> -->
+    <ion-input placeholder="Parola" type="password" [(ngModel)] = 'model.parola'></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-checkbox color="primary"></ion-checkbox>
+    <ion-label>De acord cu politiciile GDPR</ion-label>
+</ion-item>
+<ion-button color="primary" (click)="register()" class="regBtn" shape="round">Inregistrare</ion-button>
+  
+</ion-content>
