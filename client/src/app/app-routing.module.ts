@@ -15,6 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'register',
+    canActivate: [AuthGuardService],
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
   },
 ];

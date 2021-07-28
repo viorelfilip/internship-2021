@@ -16,25 +16,31 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { StorageService } from './services/storage/storage.service';
 import { FirestoreService } from './services/firebase/firestore/firestore.service';
+import { RequestInfoComponent } from './modals/request-info/request-info.component';
+import { FormsModule } from '@angular/forms';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
+
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RequestInfoComponent],
   entryComponents: [],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
+    IonicStorageModule.forRoot(),
+    FormsModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    IonicStorageModule.forRoot(),
-
   ],
   providers: [
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
+    { provide: BUCKET, useValue: 'internship-2021.appspot.com' },
     AuthService,
     FirestoreService,
     StorageService

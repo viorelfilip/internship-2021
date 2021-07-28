@@ -55,8 +55,11 @@ export class RegisterPage implements OnInit {
     }
     this.authService.signInWithPhoneNumber(this.recaptchaVerifier, '+40' + this.model.phone)
       .then(
-        this.smsVerification
-      ).catch(err => this.presentToast(err, 5000));
+        () => this.smsVerification()
+      ).catch(err => {
+        console.error(err);
+        this.presentToast(err, 5000)
+      });
   }
 
   private async presentToast(message: string, duration: number = 2000) {
@@ -92,10 +95,13 @@ export class RegisterPage implements OnInit {
           this.authService.enterVerificationCode(res.code).then(
             async (userData: firebase.default.UserInfo) => {
               await this.storage.set('userId', userData.uid)
-              this.firestoreService.saveUserInfo(this.model);
+              await this.firestoreService.saveUserInfo(this.model);
               this.navigateToHome();
             }
-          ).catch(err => this.presentToast(err, 5000));
+          ).catch(err => {
+            console.error(err);
+            this.presentToast(err, 5000)
+          });
         }
       }
       ]

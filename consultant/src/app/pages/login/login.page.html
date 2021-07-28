@@ -1,0 +1,53 @@
+<ion-content [fullscreen]="true">
+  <ion-item lines="none" class="ion-padding">
+    <ion-icon name="car-sport-outline" color="primary" style="font-size: 64px;"></ion-icon>
+    <ion-title mode="md" style="font-size: 44px;">iCar</ion-title>
+
+  </ion-item>
+
+  <div id="container" class="ion-padding">
+    <ion-card mode="ios">
+      <ion-card-header class="ion-margin">
+        <ion-card-title class="ion-text-start">Welcome back</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (ngSubmit)="login()" (keyup.enter)="login()">
+
+          <ion-item class="ion-margin-top">
+            <ion-icon slot="start" name="mail-outline" class="ion-margin-end"></ion-icon>
+            <ion-list>
+              <ion-input placeholder="Email address" patern="email" type="email" name="email" [(ngModel)]="model.email"
+                required="true">
+              </ion-input>
+            </ion-list>
+          </ion-item>
+
+          <ion-item class="ion-margin-top">
+            <ion-icon slot="start" name="lock-closed-outline" class="ion-margin-end"></ion-icon>
+            <ion-input placeholder="Password" [type]="getType()" name="password" [(ngModel)]="model.password"
+              required="true">
+            </ion-input>
+            <ion-icon slot="end" [name]="getIcon()" (click)="toggleVisibility()"></ion-icon>
+          </ion-item>
+
+          <ion-grid class="ion-no-padding">
+            <ion-row>
+              <ion-col>
+                <ion-button type="submit" class="ion-margin-vertical" expand="block">
+                  Login
+                  <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button class="ion-margin-vertical" fill="outline" expand="block" (click)="register()">
+                  Register
+                  <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

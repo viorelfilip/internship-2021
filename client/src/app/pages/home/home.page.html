@@ -1,9 +1,26 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-item lines="none" class="ion-no-padding">
-    <ion-text mode="md" class="ion-text-wrap" style="font-size: 34px;">Solicitare</ion-text>
-  </ion-item>
 
-  <div id="container">
-    <ion-button color="danger" (click)="addRequest()">Vreau consultanta</ion-button>
-  </div>
+  <ion-tabs (ionTabsDidChange)="tabChanged($event)">
+    <ion-tab-bar slot="bottom" style="--border: none;">
+      <ion-tab-button tab="active-requests" class="ion-padding-left">
+        <ion-icon icon="assets/progress-wrench.svg" [size]="getIconSize('active-requests')"></ion-icon>
+        <ion-label *ngIf="isActive('active-requests')">Active</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="request-consultant">
+        <ion-icon icon="assets/car-cog.svg" [size]="getIconSize('request-consultant')"></ion-icon>
+        <ion-label *ngIf="isActive('request-consultant')">Help</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="requests-history">
+        <ion-icon name="time-outline" [size]="getIconSize('requests-history')"></ion-icon>
+        <ion-label *ngIf="isActive('requests-history')">History</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="profile" class="ion-padding-right">
+        <ion-icon name="person-outline" [size]="getIconSize('profile')"></ion-icon>
+        <ion-label *ngIf="isActive('profile')">Profile</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

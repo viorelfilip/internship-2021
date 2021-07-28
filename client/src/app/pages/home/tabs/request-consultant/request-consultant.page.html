@@ -1,0 +1,28 @@
+<app-page-header icon="assets/car-cog.svg" title="Request consultant"></app-page-header>
+
+<ion-content>
+  <div id="container" class="ion-padding">
+    <ion-card mode="ios">
+      <ion-card-header>
+        <ion-card-title class="ion-text-start">Fill up the form</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label position="stacked">Title</ion-label>
+          <ion-input type="text" [(ngModel)]="requestModel.title" placeholder="Request title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea rows="6" cols="20" placeholder="Enter more information here..."
+            [(ngModel)]="requestModel.description">
+          </ion-textarea>
+        </ion-item>
+        <ion-img [src]="getImage()" (click)="takePicture()"></ion-img>
+        <ion-button class="ion-margin-top" expand="block" (click)="addRequest()">Request consultant</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

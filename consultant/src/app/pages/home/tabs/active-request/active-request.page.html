@@ -1,0 +1,46 @@
+<app-page-header icon="assets/progress-wrench.svg" title="Active Request"></app-page-header>
+
+<ion-content class="ion-padding">
+  <div id="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col>
+              <ion-card-title class="ion-text-start">Active Request</ion-card-title>
+
+            </ion-col>
+            <ion-col>
+              <ion-chip color="danger" outline="true" mode="ios">
+                <ion-label>Reject request</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-img [src]="request.photoUrl"></ion-img>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{request.title}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{request.description}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Appointment</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY H:mm">
+          </ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea></ion-textarea>
+        </ion-item>
+        <ion-button class="ion-margin-top" expand="block">Make appointment</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

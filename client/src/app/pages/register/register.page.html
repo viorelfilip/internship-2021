@@ -11,17 +11,17 @@
       </ion-card-header>
       <ion-card-content>
         <form (ngSubmit)="continue()" (keyup.enter)="continue()">
-          <ion-item lines="none" class="ion-margin-top">
-            <ion-icon name="call-outline" class="ion-margin-end"></ion-icon>
+          <ion-item class="ion-margin-top">
+            <ion-icon slot="start" name="call-outline" class="ion-margin-end"></ion-icon>
             <ion-input placeholder="Phone number" type="tel" name="phone" [(ngModel)]="model.phone" required="true">
             </ion-input>
           </ion-item>
-          <ion-item lines="none" class="ion-margin-top">
-            <ion-icon name="person-outline" class="ion-margin-end"></ion-icon>
+          <ion-item class="ion-margin-top">
+            <ion-icon slot="start" name="person-outline" class="ion-margin-end"></ion-icon>
             <ion-input placeholder="Name" type="text" name="name" [(ngModel)]="model.name" required="true"></ion-input>
           </ion-item>
-          <ion-item lines="none" class="ion-margin-top">
-            <ion-icon name="mail-outline" class="ion-margin-end"></ion-icon>
+          <ion-item class="ion-margin-top">
+            <ion-icon slot="start" name="mail-outline" class="ion-margin-end"></ion-icon>
             <ion-input placeholder="Email address" type="email" name="email" [(ngModel)]="model.email" required="true">
             </ion-input>
           </ion-item>

@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { FirestoreService } from 'src/app/services/firebase/firestore/firestore.service';
-import { AuthService } from "../../services/firebase/auth/auth.service";
-import { StorageService } from '../../services/storage/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +6,22 @@ import { StorageService } from '../../services/storage/storage.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private firestoreService: FirestoreService) {
-    this.firestoreService.subscribeToChanges('requests').subscribe((data) => {
-      console.log(data);
-    });
-  }
-  addRequest() {
-    this.firestoreService.addRequest();
+  private currentTab: string
+  constructor() {
   }
 
+  tabChanged(event) {
+    this.currentTab = event.tab;
+  }
+
+  isActive(tab: string) {
+    return tab === this.currentTab;
+  }
+
+  getIconSize(tab: string) {
+    if (this.isActive(tab)) {
+      return "large";
+    }
+    return 'small';
+  }
 }
