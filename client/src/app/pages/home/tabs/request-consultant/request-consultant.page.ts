@@ -43,7 +43,6 @@ export class RequestConsultantPage implements OnInit {
   async addToFirestore(photourl?: string) {
     if (photourl) {
       this.requestModel.photoUrl = photourl;
-
     }
     this.firestoreService.addRequest(this.requestModel).then(() => {
       this.requestModel = {
