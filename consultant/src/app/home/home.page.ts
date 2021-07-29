@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FirestoreService } from '../services/firebase/auth/auth.service';
+
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,17 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  public requests: any[]
+
+  constructor(private fs: FirestoreService) {
+
+    fs.subscribeToChanges("requests").subscribe(x=>{
+      console.log("debug aici: ", x)
+      this.requests = x;
+    })
+
+  }
+
+
 
 }
