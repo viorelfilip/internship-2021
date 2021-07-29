@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>test</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <input type="text" id="name" name="name" class="form-control"
+  required minlength="4" appForbiddenName="bob"
+  [(ngModel)]="hero.name" #name="ngModel">
+
+<div *ngIf="name.invalid && (name.dirty || name.touched)"
+class="alert">
+</div>
+</ion-content>

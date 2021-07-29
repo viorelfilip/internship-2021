@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-icon name="car-sport-outline" color="primary" style="font-size: 64px;">
+        </ion-icon>
+        <ion-title mode="md" style="font-size:44px;">iCar</ion-title>
+    </ion-item>
+
+    <ion-buttons slot="end" lines="none" class="ion-no-padding">
+      <ion-button id="buton_sign" color="primary" (click)="next()">Sign in</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 id="titlu">Sign Up</h1>
+  <!-- Email -->
+  <ion-item>
+    <ion-label id="email_label" position="stacked">
+      Email
+    </ion-label>
+    <!-- Validare Email -->
+    <ion-input placeholder="Ex: name@domain.com" type="text" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" class="form-control"
+      require [pattern]="emailpattern">
+    </ion-input>
+
+    <ion-note style="font-size: 12px;" color="danger" class="ion-no-padding"
+      *ngIf="email.invalid && (email.dirty || email.touched)" class="alert">
+      Format Email Gresit! Exemplu: name@domain.com
+    </ion-note>
+  </ion-item>
+
+  <!-- Parola -->
+  <ion-item>
+    <ion-label id="parola_label" position="stacked">Parola</ion-label>
+
+    <!-- Validare parola -->
+    <ion-input id="parola" name="parola" [(ngModel)]="model.parola" #parola="ngModel" class="form-control"
+      [type]=" show ? 'text' : 'password' " require [pattern]="passwordpattern">
+    </ion-input>
+    <!-- Toggle Show -->
+    <!-- <ion-label>Show Password</ion-label> -->
+    <div slot="end">
+      <ion-toggle id="toggle_password" (click)="password()"></ion-toggle>
+    </div>
+    <!-- Mesaj Parola -->
+    <ion-note style="font-size: 12px;" color="danger" class="ion-no-padding"
+      *ngIf="parola.invalid && (parola.dirty || parola.touched)" class="alert">
+
+      <h3 style="font-size: 14px;">Password must contain the following:</h3>
+      <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+      <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+      <p id="number" class="invalid">A <b>number</b></p>
+      <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+
+    </ion-note>
+  </ion-item>
+
+  <!-- nr. Telefon -->
+  <ion-item>
+    <ion-label id="telefon_label" position="stacked">Numar de telefon</ion-label>
+    <ion-input placeholder="Ex: 0712345678" type="tel" id="telefon" name="telefon" [(ngModel)]="telefon" #phone="ngModel" class="form-control"
+      require [pattern]="phonepattern" >
+    </ion-input>
+
+    <ion-note style="font-size: 14px;" color="danger" class="ion-no-padding"
+      *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert">
+      <p>Format numar telefon gresit! <b>Exemplu: 0712345678</b></p>
+    </ion-note>
+  </ion-item>
+
+  <!-- Eroare firebase -->
+  <ion-item>
+    <ion-label *ngIf="eroareFirebase" color="danger">{{eroareFirebase}}</ion-label>
+  </ion-item>
+
+  <!-- buton continua -->
+  <ion-button id="buton_continua" color="primary" (click)="validate()">Continua
+    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+  </ion-button>
+
+</ion-content>

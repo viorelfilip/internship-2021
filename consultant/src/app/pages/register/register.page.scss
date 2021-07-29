@@ -1,0 +1,29 @@
+ion-content{
+    #buton_continua{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top:20px;
+        margin-left:10%;
+        margin-right:10%;
+        
+    }
+    #titlu{
+        padding-left: 10%;
+    }
+
+}
+ion-item{
+
+    margin-left:10%;
+    margin-right:10%;
+    margin-top:20px;
+    border-radius: 8px;
+    
+}
+ ion-buttons{
+        display: flex;
+        padding-right: 10%;
+        padding-top: 15px;
+
+ }

@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Ionic Interactive
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top">
+  <ion-button expand="full" (click)="presentAlert()">
+    Load
+    <ion-icon name="reload" slot="end" #loadingIcon></ion-icon>
+  </ion-button>
+  <ion-button expand="full" (click)="presentAlertCheckbox()" #cartBtn>
+    Add to cart
+  </ion-button>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
+    <ion-fab-button #cartFabBtn color="secondary">
+      <ion-icon name="cart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
