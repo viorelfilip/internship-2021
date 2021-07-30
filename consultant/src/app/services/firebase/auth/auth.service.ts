@@ -1,28 +1,46 @@
-
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, DocumentData } from '@angular/fire/firestore';
-import { StorageService } from '../../storage/storage.service';
+import { AngularFireAuth } from "@angular/fire/auth";
+import firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreService {
+export class AuthService {
+  private confirmationResult: firebase.auth.ConfirmationResult;
+  constructor(private fireAuth: AngularFireAuth) { }
 
-  constructor(private firestore: AngularFirestore, private fireAuth: AngularFireAuth, private storage: StorageService) { }
+  signInWithMailAndPassword(email: string, password:string) {
+    return new Promise<any>((resolve, reject) => {
+      this.fireAuth.signInWithEmailAndPassword(email, password)
+        .then((confirmationResult) => {
+          console.log(confirmationResult)
+          resolve(confirmationResult);
+        }).catch((error) => {
+          reject(error.message || error);
+        });
+    });
+  }
 
-  async saveUserInfo(userInfo: any) {
-    const currentUser = await this.fireAuth.currentUser;
-    currentUser.updateEmail(userInfo.email);
-    currentUser.updateProfile({ displayName: userInfo.name });
-    this.firestore.collection('users').doc(currentUser.uid).set(
-      { id: currentUser.uid, email: userInfo.email, name: userInfo.name, phone: userInfo.phone } as DocumentData);
+  enterVerificationCode(code: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.confirmationResult.confirm(code).then((result) => {
+        resolve(result.user);
+      }).catch((error) => {
+        reject(error.message || error);
+      });
+      
+    });
   }
-  async addRequest() {
-    this.firestore.collection('requests').doc().set(
-      { userId: (await this.storage.get('userId')), stamp: new Date() } as DocumentData);
+
+  createUserWithEmailAndPassword(email: string, password: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.fireAuth.createUserWithEmailAndPassword(email, password)
+        .then((confirmationResult) => {
+          resolve(confirmationResult);
+        }).catch((error) => {
+          reject(error.message || error);
+        });
+    });
   }
-  subscribeToChanges(collection: string) {
-    return this.firestore.collection(collection).valueChanges()
-  }
+
 }
