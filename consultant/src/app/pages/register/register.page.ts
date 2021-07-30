@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/firebase/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -20,8 +20,7 @@ export class RegisterPage implements OnInit {
   model = {
     email: "",
     parola: "",
-    parolaConfirm: "",
-    telefon: ""
+    parolaConfirm: ""
   }
   get minLenghtClass() { return this.model.parola.length > 7 ? 'success' : 'danger' };
   get lowercaseClass() { return /[a-z]/.test(this.model.parola) ? 'success' : 'danger' };
@@ -37,10 +36,9 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
   }
-  firebaseError = "";
+  firebaseRegisterErrors = "";
   emailpattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
   passwordpattern = new RegExp("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
-  phonepattern = /^[0-9]{10}$/;
 
   password() {
     this.show = !this.show;
@@ -58,7 +56,19 @@ export class RegisterPage implements OnInit {
       .createUserWithEmailAndPassword(this.model.email, this.model.parola)
       .then(() => this.router.navigate(['home']))
       .catch(err => {
-        console.error({ err });
+        //console.error({ errors: err}, JSON.stringify(err));
+        if (err === "The email address is already in use by another account.") {
+          this
+            .auth
+            .signInWithMailAndPassword(this.model.email, this.model.parola)
+            .then(() => this.router.navigate(['home']))
+            .catch(() => this.firebaseRegisterErrors = err)
+        } else {
+          this.firebaseRegisterErrors = err;
+        }
       })
+  }
+  valuesNotChanged() {
+    return !(this.model.email && this.model.parola && this.model.parolaConfirm)
   }
 }

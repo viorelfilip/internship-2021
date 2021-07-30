@@ -39,6 +39,7 @@
       class="form-control"
       require
       [pattern]="emailpattern"
+      (ngModelChange)="firebaseRegisterErrors=''"
     >
     </ion-input>
 
@@ -66,6 +67,7 @@
       [type]=" show ? 'text' : 'password' "
       require
       [pattern]="passwordpattern"
+      (ngModelChange)="firebaseRegisterErrors=''"
     >
     </ion-input>
     <!-- Toggle Show -->
@@ -107,6 +109,7 @@
       type="password"
       [passwordMatch]="model.parola"
       require
+      (ngModelChange)="firebaseRegisterErrors=''"
     >
     </ion-input>
     <ion-note
@@ -123,44 +126,25 @@
     </ion-note>
   </ion-item>
 
-  <!-- nr. Telefon -->
-  <ion-item>
-    <ion-label id="telefon_label" position="stacked"
-      >Numar de telefon</ion-label
-    >
-    <ion-input
-      placeholder="Ex: 0712345678"
-      type="tel"
-      id="telefon"
-      name="telefon"
-      [(ngModel)]="telefon"
-      (keypress)="keyPress($event)"
-      #phone="ngModel"
-      class="form-control"
-      require
-      [pattern]="phonepattern"
-    >
-    </ion-input>
-
+  <!-- Afisare erori primite de la firebase -->
+  <ion-item *ngIf="firebaseRegisterErrors">
     <ion-note
       style="font-size: 14px"
       color="danger"
       class="ion-no-padding"
-      *ngIf="phone.invalid && (phone.dirty || phone.touched)"
       class="alert"
     >
-      <p>Format numar telefon gresit! <b>Exemplu: 0712345678</b></p>
+      <p>{{firebaseRegisterErrors}}</p>
     </ion-note>
   </ion-item>
 
-  <!-- Eroare firebase -->
-  <ion-item *ngIf="firebaseError">
-    <ion-label color="danger">{{firebaseError}}</ion-label>
-  </ion-item>
-
   <!-- buton continua -->
-  <ion-button id="buton_continua" color="primary" (click)="register()"
-    >Continua
+  <ion-button
+    id="buton_continua"
+    color="primary"
+    (click)="register()"
+    [disabled]="email.invalid || parola.invalid || parolaConfirm.invalid || valuesNotChanged()"
+    >Continuă
     <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
   </ion-button>
 </ion-content>
