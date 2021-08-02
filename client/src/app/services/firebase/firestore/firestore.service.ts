@@ -17,9 +17,9 @@ export class FirestoreService {
     this.firestore.collection('users').doc(currentUser.uid).set(
       { id: currentUser.uid, email: userInfo.email, name: userInfo.name, phone: userInfo.phone } as DocumentData);
   }
-  async addRequest() {
+  async addRequest(description) {
     this.firestore.collection('requests').doc().set(
-      { userId: (await this.storage.get('userId')), stamp: new Date() } as DocumentData);
+      { description, userId: (await this.storage.get('userId')), requestStamp: new Date() } as DocumentData);
   }
   subscribeToChanges(collection: string) {
     return this.firestore.collection(collection).valueChanges()

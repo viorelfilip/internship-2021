@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firebase/firestore/firestore.service';
-import { AuthService } from "../../services/firebase/auth/auth.service";
 import { StorageService } from '../../services/storage/storage.service';
-import { AlertController} from '@ionic/angular';
-import { NavController} from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { Animation, AnimationController } from '@ionic/angular';
+
+type IRequest = { requestStamp: Date, userId: string, description: string, resolutionStamp: any };
 
 @Component({
   selector: 'app-home',
@@ -11,37 +12,63 @@ import { NavController} from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
-
-  constructor(private firestoreService: FirestoreService, public alertController: AlertController, private navCtrl: NavController) {
-    this.firestoreService.subscribeToChanges('requests').subscribe((data) => {
-      console.log(data);
+  loaded: boolean = false;
+  description = '';
+  requests: Array<IRequest> = [];
+  pendingRequest: IRequest = undefined;
+  queLength: number = 0;
+  estimatedTime: Date;
+  avgTime = 0;
+  constructor(private animationCtrl: AnimationController, private firestoreService: FirestoreService, public alertController: AlertController, private storage: StorageService) {
+    this.firestoreService.subscribeToChanges('requests').subscribe((requests: any[]) => {
+      let today = new Date().toJSON().substr(0, 10);
+      // console.log({ today }, requests);
+      this.requests = requests.filter(el => this.egualsToDate(el, today));
+      // console.log({ requests }, { today: this.requests });
+      this.createStatistics()
     });
   }
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirmare',
-      message: 'Solicitarea dumneavoastra a fost inregistrata cu succes. Un operator va lua legatura cu dvs. in urmatoarele 15 min.',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.navCtrl.navigateRoot('/test');
-          }
-        }
-      ],
-      
-    });
+  async createStatistics() {
+    // cautam daca exista cerere in asteptare
+    let userId = await this.storage.get('userId');
+    let myReq = this.requests
+      .filter(el => el.userId === userId && !el.resolutionStamp)
+      .sort((a, b) => a.requestStamp < b.requestStamp ? 1 : -1);
+    this.pendingRequest = myReq.length ? myReq[0] : undefined;
+    this.loaded = true;
+    this.queLength = this.requests.filter(el => el.requestStamp < this.pendingRequest.requestStamp && !el.resolutionStamp).length;
+    let completed = this.requests.filter(el => el.resolutionStamp && el.resolutionStamp.seconds);
+    let time = completed.reduce((acc, el) => {
+      return acc + el.resolutionStamp.seconds - (el.requestStamp.getTime() / 1000);
+    }, 0);
+    // timpul scurs de la cea mai mare valoare a resolutionStamp
+    time += (new Date().getTime() / 1000) - completed.sort((a, b) => a.resolutionStamp < b.resolutionStamp ? 1 : -1)[0].resolutionStamp.seconds;
+    this.avgTime = (time / (completed.length + 1)) / 60;
 
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+    this.estimatedTime = new Date(this.pendingRequest.requestStamp.getTime() + (this.avgTime * 1000 * 60 * this.queLength));
+    this.animationCtrl.create()
+      .addElement(document.getElementById('estimatedTimeCtrl'))
+      .duration(3000)
+      //.iterations(Infinity)
+      .keyframes([
+        { offset: 0, background: 'red' },
+        { offset: 0.72, background: 'blue' },
+        { offset: 1, background: 'transparent' }
+      ]).play();
+  }
+  egualsToDate(el, date) {
+    if (el && el.requestStamp && el.requestStamp.seconds) {
+      let d = new Date(el.requestStamp.seconds * 1000);
+      el.requestStamp = d;
+      return d.toJSON().startsWith(date);
+    } else {
+      return false;
+    }
   }
   addRequest() {
-    this.firestoreService.addRequest();
+    this.loaded = false;
+    this
+      .firestoreService
+      .addRequest(this.description || '-');
   }
-  
-
 }

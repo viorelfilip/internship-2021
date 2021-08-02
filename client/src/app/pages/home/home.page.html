@@ -1,10 +1,71 @@
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content
+  [fullscreen]="true"
+  class="ion-padding"
+  *ngIf="!pendingRequest && loaded"
+>
   <ion-item lines="none" class="ion-no-padding">
-    <ion-text mode="md" class="ion-text-wrap" style="font-size: 34px;">Solicitare</ion-text>
+    <ion-text mode="md" class="ion-text-wrap" style="font-size: 34px"
+      >Solicitare</ion-text
+    >
   </ion-item>
-
+  <ion-item>
+    <ion-label id="label" position="stacked">Nota </ion-label>
+    <ion-input
+      placeholder="descrie problema..."
+      type="text"
+      id="description"
+      name="description"
+      [(ngModel)]="description"
+      class="form-control"
+      require
+    >
+    </ion-input>
+  </ion-item>
   <div id="container">
-    <ion-button color="danger" (click)="addRequest()" (click)="presentAlert()">Vreau consultanta</ion-button>
-
+    <ion-button color="danger" (click)="addRequest()"
+      >Vreau consultanta</ion-button
+    >
   </div>
 </ion-content>
+
+<ion-content *ngIf="pendingRequest && loaded">
+  <ion-item>
+    <ion-text>{{pendingRequest.description}}</ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-text>{{pendingRequest.requestStamp | date : 'hh:mm:ss'}}</ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-text> 
+      Aveti in fata <b> {{queLength}} </b>cereri în așteptare, timp mediu rezolvare {{(avgTime).toFixed(0)}} min.
+    </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-text> 
+       Cererea dvs va fi preluată cu aproximatie la <b id='estimatedTimeCtrl'> {{estimatedTime | date : 'hh:mm:ss'}} </b>.
+    </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-text>
+      Cereri pe ziua de azi : {{requests.length}}
+    </ion-text>
+  </ion-item>
+</ion-content>
+
+<!-- <ion-content *ngIf="!loaded">
+</ion-content> -->
+
+<ion-card *ngIf="!loaded">
+  <ion-card-header>
+    <ion-card-subtitle></ion-card-subtitle>
+    <ion-card-title></ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-spinner
+      name="crescent"
+      size="large"
+      class="ion-text-center"
+    ></ion-spinner>
+  </ion-card-content>
+</ion-card>
