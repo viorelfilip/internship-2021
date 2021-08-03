@@ -1,16 +1,70 @@
+<ion-content *ngIf="pendingRequest && loaded">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        <ion-icon name="hourglass-outline" size="large"></ion-icon>
+      </ion-card-subtitle>
+      <ion-card-title color="danger"
+        >{{estimatedTime | date : 'hh:mm:ss'}}</ion-card-title
+      >
+    </ion-card-header>
+
+    <ion-card-content>
+      Cererea dvs va fi preluată în curând de unul dintre consultanții noștri,
+      vedeți mai sus ora estimată.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        <ion-icon name="people-outline" size="large"></ion-icon>
+      </ion-card-subtitle>
+      <ion-card-title>{{queLength}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      Numărul de ordine al cererii dvs este {{queLength}}.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        <ion-icon name="document-attach-outline" size="large"></ion-icon>
+      </ion-card-subtitle>
+      <ion-card-subtitle>Detalii solicitare</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content> {{pendingRequest.description}} </ion-card-content>
+    <ion-card-content>
+      <ion-img [src]="img"></ion-img>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
 <ion-content
   [fullscreen]="true"
   class="ion-padding"
   *ngIf="!pendingRequest && loaded"
 >
-  <ion-item lines="none" class="ion-no-padding">
-    <ion-text mode="md" class="ion-text-wrap" style="font-size: 34px"
-      >Solicitare</ion-text
-    >
-  </ion-item>
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Vrei consiliere service auto?</ion-card-subtitle>
+    <ion-card-title>
+      <ion-icon name="call-outline" size="large"></ion-icon>
+    </ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    Optional poti adauga mai jos detalii cu privire la problema aparuta la masina.
+  </ion-card-content>
+  
+</ion-card>
+
   <ion-item>
     <ion-label id="label" position="stacked">Nota </ion-label>
-    <ion-input
+    <ion-textarea
       placeholder="descrie problema..."
       type="text"
       id="description"
@@ -18,54 +72,31 @@
       [(ngModel)]="description"
       class="form-control"
       require
+      rows="5"
     >
-    </ion-input>
+    </ion-textarea>
   </ion-item>
-  <div id="container">
-    <ion-button color="danger" (click)="addRequest()"
-      >Vreau consultanta</ion-button
-    >
-  </div>
+  <ion-item>
+    <ion-button color="danger" size="large" (click)="addRequest()"
+      >Trimite solicitare</ion-button>
+    
+  </ion-item>
+  
 </ion-content>
 
-<ion-content *ngIf="pendingRequest && loaded">
-  <ion-item>
-    <ion-text>{{pendingRequest.description}}</ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-text>{{pendingRequest.requestStamp | date : 'hh:mm:ss'}}</ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-text> 
-      Aveti in fata <b> {{queLength}} </b>cereri în așteptare, timp mediu rezolvare {{(avgTime).toFixed(0)}} min.
-    </ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-text> 
-       Cererea dvs va fi preluată cu aproximatie la <b id='estimatedTimeCtrl'> {{estimatedTime | date : 'hh:mm:ss'}} </b>.
-    </ion-text>
-  </ion-item>
-  <ion-item>
-    <ion-text>
-      Cereri pe ziua de azi : {{requests.length}}
-    </ion-text>
-  </ion-item>
+<ion-content class="ion-padding-top" *ngIf="!loaded">
+  <ion-card class="ion-padding-top">
+    <ion-card-header class="ion-padding-top">
+      <ion-card-subtitle>Se verifică starea...</ion-card-subtitle>
+      <ion-card-title>bla bla bla</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="ion-text-center">
+      <ion-spinner
+        name="crescent"
+        size="large"
+        class="spinner-xl"
+      ></ion-spinner>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
-
-<!-- <ion-content *ngIf="!loaded">
-</ion-content> -->
-
-<ion-card *ngIf="!loaded">
-  <ion-card-header>
-    <ion-card-subtitle></ion-card-subtitle>
-    <ion-card-title></ion-card-title>
-  </ion-card-header>
-
-  <ion-card-content>
-    <ion-spinner
-      name="crescent"
-      size="large"
-      class="ion-text-center"
-    ></ion-spinner>
-  </ion-card-content>
-</ion-card>

@@ -19,6 +19,7 @@ export class HomePage {
   queLength: number = 0;
   estimatedTime: Date;
   avgTime = 0;
+  img = 'https://www.bankrate.com/2021/03/29162835/car-crash-stats-featured.jpg?auto=webp&optimize=high&crop=16:9&width=912';
   constructor(private animationCtrl: AnimationController, private firestoreService: FirestoreService, public alertController: AlertController, private storage: StorageService) {
     this.firestoreService.subscribeToChanges('requests').subscribe((requests: any[]) => {
       let today = new Date().toJSON().substr(0, 10);
@@ -36,16 +37,23 @@ export class HomePage {
       .sort((a, b) => a.requestStamp < b.requestStamp ? 1 : -1);
     this.pendingRequest = myReq.length ? myReq[0] : undefined;
     this.loaded = true;
+    if (!this.pendingRequest) return;
     this.queLength = this.requests.filter(el => el.requestStamp < this.pendingRequest.requestStamp && !el.resolutionStamp).length;
     let completed = this.requests.filter(el => el.resolutionStamp && el.resolutionStamp.seconds);
     let time = completed.reduce((acc, el) => {
       return acc + el.resolutionStamp.seconds - (el.requestStamp.getTime() / 1000);
-    }, 0);
-    // timpul scurs de la cea mai mare valoare a resolutionStamp
-    time += (new Date().getTime() / 1000) - completed.sort((a, b) => a.resolutionStamp < b.resolutionStamp ? 1 : -1)[0].resolutionStamp.seconds;
+    }, 0) || 0;
+    if (completed.length) {
+      // timpul scurs de la cea mai mare valoare a resolutionStamp
+      time += (new Date().getTime() / 1000) - completed.sort((a, b) => a.resolutionStamp < b.resolutionStamp ? 1 : -1)[0].resolutionStamp.seconds;
+    } else {
+      time += (new Date().getTime() / 1000) - this.requests.sort((a, b) => a.requestStamp < b.requestStamp ? -1 : 1)[0].requestStamp.getTime()/1000;
+    }
+
     this.avgTime = (time / (completed.length + 1)) / 60;
 
     this.estimatedTime = new Date(this.pendingRequest.requestStamp.getTime() + (this.avgTime * 1000 * 60 * this.queLength));
+    console.log({estimatedTime:this.estimatedTime});
     this.animationCtrl.create()
       .addElement(document.getElementById('estimatedTimeCtrl'))
       .duration(3000)
