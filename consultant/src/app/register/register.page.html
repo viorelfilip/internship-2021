@@ -1,33 +1,150 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Register Here</ion-title>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-icon
+        name="car-sport-outline"
+        color="primary"
+        style="font-size: 64px"
+      >
+      </ion-icon>
+      <ion-title mode="md" style="font-size: 44px">iCar</ion-title>
+    </ion-item>
+
+    <ion-buttons slot="end" lines="none" class="ion-no-padding">
+      <ion-button id="buton_sign" color="primary" (click)="next()"
+        >Sign in</ion-button
+      >
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-<!-- Input with placeholder -->
-  <ion-card>
-    <ion-card-header>
-        <ion-card-subtitle></ion-card-subtitle>
-        </ion-card-header>  
+<ion-content>
+  <ion-item>
+    <ion-text>
+      <h1>Sign Up</h1>
+    </ion-text>
+  </ion-item>
 
-    <ion-card-content>
-      <ion-item>
-        <ion-input placeholder= "Email" [(ngModel)]="model.email"></ion-input>
-    </ion-item>
-    <br>
-      <ion-item>
-        <ion-input placeholder= "Password" [(ngModel)]="model.password" type="password"></ion-input>
-      </ion-item>
-    <br>
-    <ion-item>
-      <ion-input placeholder= "Confirm Password" [(ngModel)]="confirmation.password" type="password"></ion-input>
-    </ion-item>
-  <br>
-  <div style="color : red" *ngIf='error'>{{error}}</div>
-    <ion-button (click)="registerMe()">Register</ion-button>
-    
-    </ion-card-content>
-  </ion-card>
+  <!-- Email -->
+  <ion-item>
+    <ion-label id="email_label" position="stacked"> Email </ion-label>
+    <!-- Validare Email -->
+    <ion-input
+      placeholder="Ex: name@domain.com"
+      type="text"
+      id="email"
+      name="email"
+      [(ngModel)]="model.email"
+      #email="ngModel"
+      class="form-control"
+      require
+      [pattern]="emailpattern"
+      (ngModelChange)="firebaseRegisterErrors=''"
+    >
+    </ion-input>
 
+    <ion-note
+      style="font-size: 12px"
+      color="danger"
+      class="ion-no-padding"
+      *ngIf="email.invalid && (email.dirty || email.touched)"
+      class="alert"
+    >
+      Format Email Gresit! Exemplu: name@domain.com
+    </ion-note>
+  </ion-item>
+  <!-- Parola -->
+  <ion-item>
+    <ion-label id="parola_label" position="stacked">Parola</ion-label>
+
+    <!-- Validare parola -->
+    <ion-input
+      id="parola"
+      name="parola"
+      [(ngModel)]="model.parola"
+      #parola="ngModel"
+      class="form-control"
+      [type]=" show ? 'text' : 'password' "
+      require
+      [pattern]="passwordpattern"
+      (ngModelChange)="firebaseRegisterErrors=''"
+    >
+    </ion-input>
+    <!-- Toggle Show -->
+    <!-- <ion-label>Show Password</ion-label> -->
+    <div slot="end">
+      <ion-toggle id="toggle_password" (click)="password()"></ion-toggle>
+    </div>
+    <!-- Mesaj Parola -->
+    <ion-note
+      style="font-size: 12px"
+      class="ion-no-padding"
+      *ngIf="parola.invalid && (parola.dirty || parola.touched)"
+      class="alert"
+    >
+      <h3 style="font-size: 14px">Password must contain the following:</h3>
+      <ion-text [color]="lowercaseClass">
+        <p id="letter">A <b>lowercase</b> letter</p>
+      </ion-text>
+      <ion-text [color]="uppercaseClass">
+        <p id="capital">A <b>capital (uppercase)</b> letter</p>
+      </ion-text>
+      <ion-text [color]="hasNumberClass">
+        <p id="number">A <b>number</b></p>
+      </ion-text>
+      <ion-text [color]="minLenghtClass">
+        <p id="length">Minimum <b>8 characters</b></p>
+      </ion-text>
+    </ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label id="parola_label" position="stacked">Confirmă parola</ion-label>
+    <ion-input
+      id="parolaConfirm"
+      name="parolaConfirm"
+      [(ngModel)]="model.parolaConfirm"
+      #parolaConfirm="ngModel"
+      class="form-control"
+      type="password"
+      [passwordMatch]="model.parola"
+      require
+      (ngModelChange)="firebaseRegisterErrors=''"
+    >
+    </ion-input>
+    <ion-note
+      style="font-size: 14px"
+      color="danger"
+      class="ion-no-padding"
+      *ngIf="parolaConfirm.invalid && (parolaConfirm.dirty || parolaConfirm.touched)"
+      class="alert"
+    >
+      <p>
+        Parola de confirmare este scrisă greșit, trebuie să tastați de două ori
+        aceiași parolă !
+      </p>
+    </ion-note>
+  </ion-item>
+
+  <!-- Afisare erori primite de la firebase -->
+  <ion-item *ngIf="firebaseRegisterErrors">
+    <ion-note
+      style="font-size: 14px"
+      color="danger"
+      class="ion-no-padding"
+      class="alert"
+    >
+      <p>{{firebaseRegisterErrors}}</p>
+    </ion-note>
+  </ion-item>
+
+  <!-- buton continua -->
+  <ion-button
+    id="buton_continua"
+    color="primary"
+    (click)="register()"
+    [disabled]="email.invalid || parola.invalid || parolaConfirm.invalid || valuesNotChanged()"
+    >Continuă
+    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+  </ion-button>
 </ion-content>

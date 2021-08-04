@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { CanActivate, Router } from '@angular/router';
 import { StorageService } from '../../storage/storage.service';
 
@@ -7,16 +8,17 @@ import { StorageService } from '../../storage/storage.service';
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(private storage: StorageService, private router: Router) {
+  constructor(private fireAuth: AngularFireAuth, private storage: StorageService, private router: Router) {
   }
   async canActivate(): Promise<boolean> {
     const registerData = await this.storage.get('registerData');
-    if (!registerData) {
-      console.warn('inititializare lipsă.... rutare la register');
-      this.router.navigate(['register']);
+    let user = await this.fireAuth.currentUser;
+    if (!user) {
+      console.warn('inititializare lipsă.... rutare la login');
+      this.router.navigate(['login']);
       return false;
     }
-    console.log({registerData});
+    console.log(user.email, user);
     return true;
   }
 }
