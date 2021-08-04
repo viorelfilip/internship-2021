@@ -1,15 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Cereri
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
+    <ion-label>Pending:</ion-label>
     <ion-item *ngFor="let itm of requests">
-      <ion-label>{{itm.userId}}</ion-label>
+      <ion-label style="color : red">{{itm.id}}</ion-label>
+      <ion-button (click)="takeTask(itm)">Take</ion-button>
     </ion-item>
-  </ion-list> 
+  </ion-list>
+    <ion-list>
+    <ion-label>Call:</ion-label>
+    <ion-item *ngFor="let user of users">
+      <ion-label style="color : rgb(0, 225, 255)">{{user.name}}</ion-label>
+      <ion-label style="color : rgb(0, 225, 255)">{{user.phone}}</ion-label>
+      <ion-button (click)="call()" href="tel:{{user.phone}}">Call</ion-button>
+    </ion-item>
+  </ion-list>
+  <br>
+  <ion-list>
+    <ion-label>In Progress:</ion-label>
+    <ion-item *ngFor="let aitm of inProcess">
+      <ion-label style="color : yellow">{{aitm.id}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
