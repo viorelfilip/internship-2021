@@ -21,7 +21,6 @@ export class RegisterPage implements OnInit {
 
   registerMe(){
     if (this.model.password === this.confirmation.password){
-      //this.storage.set('registerData', this.model);
       this.auth.createUserWithEmailAndPassword(this.model.email, this.model.password)
       .then(x => {
         this.router.navigate(['/home'])

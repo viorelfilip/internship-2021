@@ -22,11 +22,10 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  async logMeIn(){
-    
+  async logMeIn(email: string){
     this.auth.signInWithMailAndPassword(this.model.email, this.model.password)
     .then(x => {
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home']);
 
     }).catch(err => {
       alert("Nu s-a putut conecta")
