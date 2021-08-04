@@ -12,29 +12,32 @@ import { StorageService } from '../services/storage/storage.service';
 })
 export class LoginPage implements OnInit {
 
-  model = {email:'', password: ''}
-  constructor (private router: Router, private storage:StorageService,
+  model = { email: '', password: '' };
+  constructor(private router: Router, private storage: StorageService,
     private toastController: ToastController,
     private alertController: AlertController,
     private auth: AuthService,
-    private firestoreService: FirestoreService ) { }
+    private firestoreService: FirestoreService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.model = await this.storage.get('login');
+    this.model = this.model || { email: '', password: '' };
+    console.log({ email: this.model.email });
   }
 
-  async logMeIn(email: string){
+  async logMeIn(email: string) {
     this.auth.signInWithMailAndPassword(this.model.email, this.model.password)
-    .then(x => {
-      this.router.navigate(['/home']);
-
-    }).catch(err => {
-      alert("Nu s-a putut conecta")
-      console.error(err)
-    })
+      .then(async x => {
+        this.router.navigate(['/home']);
+        await this.storage.set('login', this.model);
+      }).catch(err => {
+        alert("Nu s-a putut conecta")
+        console.error(err)
+      })
 
   }
 
-  regis(){
+  regis() {
 
     this.router.navigate(['/register'])
   }

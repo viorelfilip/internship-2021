@@ -1,3 +1,31 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>{{pendingInfo}}</ion-card-subtitle>
+      <ion-card-title>{{user.name}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content> {{request.description}} </ion-card-content>
+    <img [src]="img" />
+  </ion-card>
+
+  <ion-item lines="none">
+    <ion-text slot="start">Solicitări în așteptare</ion-text>
+    <ion-badge color="primary" size="large" slot="end">{{queLength}}</ion-badge>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-button size="large" slot="end">
+        <ion-icon name="call-outline" class="ion-margin-end"></ion-icon>
+        Apel {{user.name}}
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
+<!-- 
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
@@ -29,4 +57,4 @@
       <ion-label style="color : yellow">{{aitm.id}}</ion-label>
     </ion-item>
   </ion-list>
-</ion-content>
+</ion-content> -->
