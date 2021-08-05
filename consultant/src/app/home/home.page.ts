@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FirestoreService } from '../services/firebase/firestore/firestore.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/firebase/auth/auth.service';
-
-//import { CallNumber } from '@ionic-native/call-number';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,13 @@ import { AuthService } from '../services/firebase/auth/auth.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  images = [
+    "https://www.bankrate.com/2021/03/29162835/car-crash-stats-featured.jpg?auto=webp&optimize=high&crop=16:9&width=912",
+    "https://media.npr.org/assets/img/2021/06/08/20210607_184450-2e240569e1dc66bcff31f74bc88fb1d5c301686b-s1800-c85.webp",
+    "https://cdn10.bostonmagazine.com/wp-content/uploads/sites/2/2019/03/boxborough-car-boston-t.jpg",
+    "https://www.masslive.com/resizer/smNoxFJdn_Vzk9dAbmSTzRKx0d0=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/3ZVJO5ZPHFHM7O634SMC7LSXRU.jpg",
+    "https://www.belfasttelegraph.co.uk/news/northern-ireland/northern-ireland-school-formal-off-as-car-crash-teen-fights-for-life-38236435.html#"
+  ];
   public pendingRequests: any[]
   public request: any = {};
   public inProcess: any[]
@@ -21,11 +26,11 @@ export class HomePage {
   public user: any = {};
   public phoneNumber: number;
   currentUser: any;
-  img = 'https://www.bankrate.com/2021/03/29162835/car-crash-stats-featured.jpg?auto=webp&optimize=high&crop=16:9&width=912';
+  img = '';
   get pendingInfo() { return 'așteaptă de 17 minute'; }
   get queLength() { return this.pendingRequests ? this.pendingRequests.length : 0 }
   constructor(private fs: FirestoreService, private route: ActivatedRoute,
-    private router: Router, private fsa: AuthService) {
+    private router: Router, private fsa: AuthService, private callNumber: CallNumber) {
 
     fs.subscribeToChangesPending("requests").subscribe(x => {
       let today = new Date();
@@ -43,6 +48,12 @@ export class HomePage {
           this.user = user[0] || {};
         })
       }
+      let index = this.images.indexOf(this.img);
+      if (~index) {
+        this.img = this.images[++index % this.images.length];
+      } else {
+        this.img = this.images[0];
+      }
     })
     fs.subscribeToChangesInProcess("requests").subscribe(y => {
       console.log("inProgress: ", y);
@@ -57,7 +68,21 @@ export class HomePage {
     });
   }
 
-  takeTask(request: any) {
+
+  call() {
+    if (this.request.id)
+      this.fs
+        .setStatus(this.request, 1)
+        .then(() => {
+          this.callNumber
+          .callNumber(this.user.phone, true)
+          .then(console.log)
+          .catch(console.error)
+        })
+  }
+
+  /*
+   takeTask(request: any) {
 
     console.log("id current user: ", this.currentUser.id);
     this.fs.setStatus(request, 1);
@@ -76,15 +101,7 @@ export class HomePage {
     console.log("Ze phone: ", this.phoneNumber);
 
   }
-  call() {
-    this.fs
-      .setStatus(this.request, 1)
-      .then(() => {
-        alert('call' + this.user.phone)
-      })
-  }
-
-  /*finishTask(request : any){
+  finishTask(request : any){
     
     this.fs.setStatus(request);
     this.fs.subscribeToChangesPending("requests").subscribe(x=>{
