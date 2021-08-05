@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'home',
     canActivate: [AuthGuardService],
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
@@ -17,9 +17,18 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
   },
- 
-
-
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'menu',
+    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'test',
+    loadChildren: () => import('./pages/test/test.module').then( m => m.TestPageModule)
+  }
 ];
 
 @NgModule({

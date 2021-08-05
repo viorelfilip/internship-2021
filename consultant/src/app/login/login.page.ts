@@ -23,9 +23,10 @@ export class LoginPage implements OnInit {
     this.model = await this.storage.get('login');
     this.model = this.model || { email: '', password: '' };
     console.log({ email: this.model.email });
+    if(this.model.email && this.model.password) this.logMeIn();
   }
 
-  async logMeIn(email: string) {
+  async logMeIn() {
     this.auth.signInWithMailAndPassword(this.model.email, this.model.password)
       .then(async x => {
         this.router.navigate(['/home']);

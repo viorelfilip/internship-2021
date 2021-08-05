@@ -76,6 +76,13 @@ export class HomePage {
     console.log("Ze phone: ", this.phoneNumber);
 
   }
+  call() {
+    this.fs
+      .setStatus(this.request, 1)
+      .then(() => {
+        alert('call' + this.user.phone)
+      })
+  }
 
   /*finishTask(request : any){
     
