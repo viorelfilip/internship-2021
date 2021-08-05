@@ -8,10 +8,7 @@ import { StorageService } from '../../storage/storage.service';
 })
 export class FirestoreService {
 
-  constructor(private firestore: AngularFirestore, private fireAuth: AngularFireAuth,
-    private storage: StorageService) {
-
-   }
+  constructor(private firestore: AngularFirestore, private fireAuth: AngularFireAuth, private storage: StorageService) { }
 
   async saveUserInfo(userInfo: any) {
     const currentUser = await this.fireAuth.currentUser;
@@ -24,7 +21,6 @@ export class FirestoreService {
     this.firestore.collection('requests').doc().set(
       { userId: (await this.storage.get('userId')), stamp: new Date() } as DocumentData);
   }
-
   subscribeToChanges(collection: string) {
     return this.firestore.collection(collection).valueChanges()
   }

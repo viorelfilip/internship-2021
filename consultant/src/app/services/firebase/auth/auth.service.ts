@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { FirebaseApp } from "@angular/fire";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { DocumentData } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
 
 @Injectable({
@@ -12,24 +9,37 @@ export class AuthService {
   private confirmationResult: firebase.auth.ConfirmationResult;
   constructor(private fireAuth: AngularFireAuth) { }
 
-  public signInWithPhoneNumber(recaptchaVerifier, phoneNumber) {
+  signInWithMailAndPassword(email: string, password:string) {
     return new Promise<any>((resolve, reject) => {
-      this.fireAuth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
+      this.fireAuth.signInWithEmailAndPassword(email, password)
         .then((confirmationResult) => {
-          this.confirmationResult = confirmationResult;
+          console.log(confirmationResult)
           resolve(confirmationResult);
         }).catch((error) => {
           reject(error.message || error);
         });
     });
   }
-  public async enterVerificationCode(code) {
+
+  enterVerificationCode(code: string) {
     return new Promise<any>((resolve, reject) => {
-      this.confirmationResult.confirm(code).then(async (result) => {
+      this.confirmationResult.confirm(code).then((result) => {
         resolve(result.user);
       }).catch((error) => {
         reject(error.message || error);
       });
+      
+    });
+  }
+
+  createUserWithEmailAndPassword(email: string, password: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.fireAuth.createUserWithEmailAndPassword(email, password)
+        .then((confirmationResult) => {
+          resolve(confirmationResult);
+        }).catch((error) => {
+          reject(error.message || error);
+        });
     });
   }
 
