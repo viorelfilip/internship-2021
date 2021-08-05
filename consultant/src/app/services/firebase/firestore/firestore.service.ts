@@ -46,7 +46,7 @@ export class FirestoreService {
   async setStatus(request: any, stat: number/*, consId: string*/){
     console.log("aidi recuest: ", request.id);
     this.firestore.collection('requests', ref => ref.where('id', '==', request.id)).doc(request.id).update(
-      { status: stat/*, consultantId: consId*/} as DocumentData);
+      { status: stat, resolutionStamp: new Date()/*, consultantId: consId*/} as DocumentData);
       //intreaba aici de ce daca am pus request.id in doc() merge
 
   }
